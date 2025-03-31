@@ -5,7 +5,7 @@ For training:
 ```python train.py -s data/hypernerf/split-cookie -m data/hypernerf/cookie_DINO_40000 --fundation_model "DINOv2" --semantic_dimension 384 --ratio 4```
 
 For rendering and segmenting:
-```python render.py -s data/hypernerf/split-cookie/ -m data/hypernerf/cookie_DINO_40000 --fundation_model "DINOv2" --semantic_dimension 384 --iterations 30_000 --frame 233 --novel_views -1 --ratio 4 --points "(135, 170)” --thetas "0.55"```
+```python render.py -s data/hypernerf/split-cookie/ -m data/hypernerf/cookie_DINO_40000 --fundation_model "DINOv2" --semantic_dimension 384 --iterations 40_000 --frame 233 --novel_views -1 --ratio 4 --points "(135, 170)” --thetas "0.55"```
 
 ## Reference the original repository
 Isaac Labe, Noam Issachar, Itai Lang, Sagie Benaim<br>
