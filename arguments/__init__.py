@@ -63,6 +63,7 @@ class ModelParams(ParamGroup):
         self.is_6dof = False
         self.fundation_model = "" # "DINOv2", "Lseg_CLIP"
         self.semantic_dimension = 0 # 384: DINOv2, 512: Lseg_CLIP
+        self.ratio = 1 # if training with different image sizes
         super().__init__(parser, "Loading Parameters", sentinel)
 
     def extract(self, args):

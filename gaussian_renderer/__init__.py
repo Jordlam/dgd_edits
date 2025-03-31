@@ -113,7 +113,11 @@ def render(viewpoint_camera, pc: GaussianModel, pipe, bg_color: torch.Tensor, d_
         scales = scales,
         rotations = rotations,
         cov3D_precomp = cov3D_precomp)
-
+    
+    # print("We are printing devices to debug.")
+    # print(rendered_image.get_device())
+    # print(radii.get_device())
+    # print(feature_map.get_device())
     # Those Gaussians that were frustum culled or had a radius of 0 were not visible.
     # They will be excluded from value updates used in the splitting criteria.
     return {"render": rendered_image,

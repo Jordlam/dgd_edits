@@ -148,6 +148,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
     progress_bar = tqdm(range(opt.iterations), desc="Training progress")
     smooth_term = get_linear_noise_func(lr_init=0.1, lr_final=1e-15, lr_delay_mult=0.01, max_steps=20000)
     
+    # for iteration in range(20000 + 1, 40000 + 1):
     for iteration in range(1, opt.iterations + 1):
         if network_gui.conn == None:
             network_gui.try_connect()
@@ -203,7 +204,15 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
             freeze_grad(gaussians, name = "sem_f", state = True)
 
             image_original_name = viewpoint_cam.image_name
-            image_name = args.source_path + "/rgb/1x/" + str(image_original_name) + ".png"
+            # if using DNeRF dataset
+            if "dnerf" in args.source_path:
+                image_name = args.source_path + "/train/" + str(image_original_name) + ".png"
+            # if using HyperNeRF dataset
+            elif "hypernerf" in args.source_path:
+                image_name = args.source_path + "/rgb/1x/" + str(image_original_name) + ".png"
+            else:
+                assert False, "Could not recognize dataset type!"
+
             if dataset.fundation_model == "DINOv2":
                 feature_extractor = DINOv2_feature_extractor(image_name = image_name, model_dinov2_net = dinov2_vits14, image = None)
             elif dataset.fundation_model == "Lseg_CLIP":
@@ -238,7 +247,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
             # Progress bar
             ema_loss_for_log = 0.4 * loss.item() + 0.6 * ema_loss_for_log
             if iteration % 10 == 0:
-                progress_bar.set_postfix({"Loss": f"{ema_loss_for_log:.{7}f}"})
+                progress_bar.set_postfix({"Loss": f"{ema_loss_for_log:.{7}f}", "Num_Gaussians": f"{gaussians._xyz.shape[0]}"})
                 progress_bar.update(10)
             if iteration == opt.iterations:
                 progress_bar.close()
@@ -295,16 +304,51 @@ if __name__ == "__main__":
     parser.add_argument('--ip', type=str, default="127.0.0.1")
     parser.add_argument('--port', type=int, default=6009)
     parser.add_argument('--detect_anomaly', action='store_true', default=False)
+    
     parser.add_argument("--test_iterations", nargs="+", type=int, default=[5000, 6000, 7000])
-    parser.add_argument("--save_iterations", nargs="+", type=int, default=[10_000,20_000,30_000,40_000])
+    parser.add_argument("--save_iterations", nargs="+", type=int, default=[10_000,20_000,30_000,40_000]) 
+    # ---smaller iterations
+    # parser.add_argument("--test_iterations", nargs="+", type=int, default=[1250,1500,1750])
+    # parser.add_argument("--save_iterations", nargs="+", type=int, default=[2500,5000,7500,10000])
+    # ---20,000
+    # parser.add_argument("--test_iterations", nargs="+", type=int, default=[2500,3000,3500])
+    # parser.add_argument("--save_iterations", nargs="+", type=int, default=[5000,10000,15000,20000])
+
+    # Debugging
+    # parser.add_argument("--test_iterations", nargs="+", type=int, default=[50,60,70])
+    # parser.add_argument("--save_iterations", nargs="+", type=int, default=[100,200,300,400])
+
     parser.add_argument("--quiet", action="store_true")
     args, _ = parser.parse_known_args()
+
     args.iterations = 40_000
     args.warm_up = 3000
     args.densify_until_iter = 15_000
     args.semantic_start = 30_000
     args.semantic_stop = 40_000
     args.stop_MLP = 30_000
+    # ---smaller iterations
+    # args.iterations = 10000
+    # args.warm_up = 750
+    # args.densify_until_iter = 3750
+    # args.semantic_start = 7500
+    # args.semantic_stop = 10000
+    # args.stop_MLP = 7500
+    # ---20,000
+    # args.iterations = 20000
+    # args.warm_up = 1500
+    # args.densify_until_iter = 7500
+    # args.semantic_start = 15000
+    # args.semantic_stop = 20000
+    # args.stop_MLP = 15000
+
+    # Debugging
+    # args.iterations = 400
+    # args.warm_up = 30
+    # args.densify_until_iter = 150
+    # args.semantic_start = 300
+    # args.semantic_stop = 400
+    # args.stop_MLP = 300
     
     print("Optimizing " + args.model_path)
 

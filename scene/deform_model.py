@@ -40,7 +40,11 @@ class DeformModel:
         else:
             loaded_iter = iteration
         weights_path = os.path.join(model_path, "deform/iteration_{}/deform.pth".format(loaded_iter))
-        self.deform.load_state_dict(torch.load(weights_path))
+
+        checkpoint = torch.load(weights_path)
+        self.deform.load_state_dict(checkpoint)
+        # del checkpoint
+        # torch.cuda.empty_cache()
 
     def update_learning_rate(self, iteration):
         for param_group in self.optimizer.param_groups:

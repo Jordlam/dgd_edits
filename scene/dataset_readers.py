@@ -399,7 +399,7 @@ def readNeuSDTUInfo(path, render_camera, object_camera):
     return scene_info
 
 
-def readNerfiesCameras(path):
+def readNerfiesCameras(path, ratio):
     with open(f'{path}/scene.json', 'r') as f:
         scene_json = json.load(f)
     with open(f'{path}/metadata.json', 'r') as f:
@@ -430,7 +430,10 @@ def readNerfiesCameras(path):
     else:  # for hypernerf
         train_img = dataset_json['ids'][::]
         all_img = train_img
-        ratio = 0.5
+        ratio = (1 / ratio)
+        print("Using images with ratio:", ratio)
+        # ratio = 0.5
+        # ratio is set in argument
 
     train_num = len(train_img)
 
@@ -442,6 +445,7 @@ def readNerfiesCameras(path):
 
     # all poses
     all_cam_params = []
+    print("Using images:", all_img)
     for im in all_img:
         camera = camera_nerfies_from_JSON(f'{path}/camera/{im}.json', ratio)
         camera['position'] = camera['position'] - scene_center
@@ -476,9 +480,9 @@ def readNerfiesCameras(path):
     return cam_infos, train_num, scene_center, coord_scale
 
 
-def readNerfiesInfo(path, eval):
+def readNerfiesInfo(path, eval, ratio):
     print("Reading Nerfies Info")
-    cam_infos, train_num, scene_center, scene_scale = readNerfiesCameras(path)
+    cam_infos, train_num, scene_center, scene_scale = readNerfiesCameras(path, ratio)
 
     if eval:
         train_cam_infos = cam_infos[:train_num]

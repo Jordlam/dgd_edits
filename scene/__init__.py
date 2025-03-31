@@ -24,7 +24,7 @@ class Scene:
     gaussians: GaussianModel
 #    AutoEncoder : AEModel
 
-    def __init__(self, args: ModelParams, gaussians: GaussianModel, load_iteration=None, shuffle=True,
+    def __init__(self, args: ModelParams, gaussians: GaussianModel, load_iteration=False, shuffle=True,
                  resolution_scales=[1.0]):
         """b
         :param path: Path to colmap scene main folder.
@@ -53,7 +53,7 @@ class Scene:
             scene_info = sceneLoadTypeCallbacks["DTU"](args.source_path, "cameras_sphere.npz", "cameras_sphere.npz")
         elif os.path.exists(os.path.join(args.source_path, "dataset.json")):
             print("Found dataset.json file, assuming Nerfies data set!")
-            scene_info = sceneLoadTypeCallbacks["nerfies"](args.source_path, args.eval)
+            scene_info = sceneLoadTypeCallbacks["nerfies"](args.source_path, args.eval, args.ratio)
         elif os.path.exists(os.path.join(args.source_path, "poses_bounds.npy")):
             print("Found calibration_full.json, assuming Neu3D data set!")
             scene_info = sceneLoadTypeCallbacks["plenopticVideo"](args.source_path, args.eval, 24)

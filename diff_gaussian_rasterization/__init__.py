@@ -83,7 +83,11 @@ class _RasterizeGaussians(torch.autograd.Function):
             raster_settings.debug,
         )
 
-
+        # Debugging
+        # for i, a in enumerate(args):
+        #     print(i, type(a))
+        #     if isinstance(a, torch.Tensor):
+        #         print("     ", i, a.dtype)
 
         # Invoke C++/CUDA rasterizer
         if raster_settings.debug:
@@ -106,6 +110,7 @@ class _RasterizeGaussians(torch.autograd.Function):
     @staticmethod
     ### def backward(ctx, grad_out_color, _):
     def backward(ctx, grad_out_color, grad_out_feature, _):
+
         # Restore necessary values from context
         num_rendered = ctx.num_rendered
         raster_settings = ctx.raster_settings
