@@ -107,14 +107,14 @@ def render_set_DINOv2(model_path, load2gpu_on_the_fly, is_6dof, name, iteration,
         # torchvision.utils.save_image(rendering_PCA, os.path.join(render_PCA_path, '{0:05d}'.format(t) + ".png"))
 
     renderings = np.stack(renderings, 0).transpose(0, 2, 3, 1)
-    imageio.mimwrite(os.path.join(render_path, 'video.mp4'), renderings, fps=3, quality=8)
+    imageio.mimwrite(os.path.join(render_path, 'video.mp4'), renderings, fps=15, quality=8)
 
     # renderings_PCA = np.stack(renderings_PCA, 0).transpose(0, 2, 3, 1)
     # imageio.mimwrite(os.path.join(render_PCA_path, 'video_PCA.mp4'), renderings_PCA, fps=60, quality=8)
     
     if novel_views == -1:
         gts = np.stack(gts, 0).transpose(0, 2, 3, 1)
-        imageio.mimwrite(os.path.join(gts_path, 'video_gt.mp4'), gts, fps=3, quality=8)
+        imageio.mimwrite(os.path.join(gts_path, 'video_gt.mp4'), gts, fps=15, quality=8)
 
 
 def render_sets(dataset: ModelParams, opt: OptimizationParams, iteration: int, pipeline: PipelineParams, frame : int, prompt : str, novel_views : int, total : int):

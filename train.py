@@ -209,7 +209,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations):
                 image_name = args.source_path + "/train/" + str(image_original_name) + ".png"
             # if using HyperNeRF dataset
             elif "hypernerf" in args.source_path:
-                image_name = args.source_path + "/rgb/1x/" + str(image_original_name) + ".png"
+                # image_name = args.source_path + "/rgb/1x/" + str(image_original_name) + ".png"
+                image_name = args.source_path + "/rgb/2x/" + str(image_original_name) + ".png"
             else:
                 assert False, "Could not recognize dataset type!"
 
@@ -306,7 +307,8 @@ if __name__ == "__main__":
     parser.add_argument('--detect_anomaly', action='store_true', default=False)
     
     parser.add_argument("--test_iterations", nargs="+", type=int, default=[5000, 6000, 7000])
-    parser.add_argument("--save_iterations", nargs="+", type=int, default=[10_000,20_000,30_000,40_000]) 
+    # parser.add_argument("--save_iterations", nargs="+", type=int, default=[10_000,20_000,30_000,40_000]) 
+    parser.add_argument("--save_iterations", nargs="+", type=int, default=[20_000, 30_000, 40_000]) 
     # ---smaller iterations
     # parser.add_argument("--test_iterations", nargs="+", type=int, default=[1250,1500,1750])
     # parser.add_argument("--save_iterations", nargs="+", type=int, default=[2500,5000,7500,10000])
@@ -323,10 +325,14 @@ if __name__ == "__main__":
 
     args.iterations = 40_000
     args.warm_up = 3000
-    args.densify_until_iter = 15_000
     args.semantic_start = 30_000
     args.semantic_stop = 40_000
     args.stop_MLP = 30_000
+    # running for different dataset sizes
+    args.densify_until_iter = 15_000
+    # args.densify_until_iter = 30_000
+    # args.densify_until_iter = 7_500
+
     # ---smaller iterations
     # args.iterations = 10000
     # args.warm_up = 750
