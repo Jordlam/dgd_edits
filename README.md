@@ -1,7 +1,16 @@
 # DGD: Dynamic 3D Gaussians Distillation - Edits by Jordlam
+Edits made to DGD to perform segmentation and rendering of dynamic 3D Gaussians for editing in https://github.com/Jordlam/gsplat_code.
+
+![ground_truth](./demo/cookie_gt.gif)
+![segmentation](./demo/cookie_seg.gif)
+
+## Installation
+For installation, reference the original repository of DGD
 
 ## Commands
-For training:
+Obtain point cloud trained on cookie dataset for 40,000 iterations here https://drive.google.com/drive/folders/161Y9rZB82UHW98acliGItmLiro9xCouq?usp=sharing:
+OR
+train via:
 ```python train.py -s data/hypernerf/split-cookie -m data/hypernerf/cookie_DINO_40000 --fundation_model "DINOv2" --semantic_dimension 384 --ratio 4```
 
 For rendering and segmenting:
