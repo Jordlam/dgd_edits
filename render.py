@@ -32,10 +32,6 @@ def get_feature(x, y, view, gaussians, pipeline, background, scaling_modifier, o
         return a.mean(dim=(1,2))
 
 def calculate_selection_score_DINOv2(features, query_feature, score_threshold=0.8):
-    # given the query_feature of shape [384] from above
-    # features /= features.norm(dim=-1, keepdim=True)
-    # query_feature /= query_feature.norm(dim=-1, keepdim=True)
-
     features /= features.norm(dim=-1, keepdim=True).clamp(min=1e-6)
     query_feature[query_feature.abs() > 1e5] = 0 # mask query_feature to avoid nan from huge values
     query_feature /= query_feature.norm(dim=-1, keepdim=True).clamp(min=1e-6)
