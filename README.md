@@ -3,8 +3,10 @@ Edits made to DGD to perform segmentation and rendering of dynamic 3D Gaussians 
 
 ![cookie_ground_truth](./demo/cookie_gt.gif)
 ![cookie_segmentation](./demo/cookie_seg.gif)
+
 ![hand_ground_truth](./demo/hand_gt.gif)
 ![hand_segmentation](./demo/hand_seg.gif)
+
 ![torch_ground_truth](./demo/torch_gt.gif)
 ![torch_segmentation](./demo/torch_seg.gif)
 
